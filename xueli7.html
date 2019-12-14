@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="xueli7.css">
+	<script src="js/animate.js"></script>
+</head>
+<body>
+	<div class="top">
+		<div class="laba">
+			<img src="images/a15.png" alt="">
+		</div>	
+		<div class="text" >
+				<Marquee>[温馨提示]最近有不少不法分子在网上骗人，请大家注意！！！</Marquee>
+		</div>
+	</div>
+	<div class="box" id="box">
+		<div class="slider" id="slider">
+			<div class="slide"><img src="images/b5.png" alt=""></div>
+			<div class="slide"><img src="images/b1.png" alt=""></div>
+			<div class="slide"><img src="images/b2.png" alt=""></div>
+			<div class="slide"><img src="images/b3.png" alt=""></div>
+			<div class="slide"><img src="images/b4.png" alt=""></div>
+			<div class="slide"><img src="images/b5.png" alt=""></div>
+			<div class="slide"><img src="images/b1.png" alt=""></div>
+		</div>
+		<span id="left"><</span>
+		<span id="right">></span>
+		<ul class="nav" id="nav">
+			<li class="active">1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+		</ul> 
+	</div>
+	<script>
+		var box=document.getElementById('box');
+		var oNavlist=document.getElementById('nav').children;
+		var slider=document.getElementById('slider');
+		var left=document.getElementById('left');
+		var right=document.getElementById('right');
+		var index=1;
+		var timer;
+		var isMoving=false;
+
+		function next(){
+			index++;
+			navChange();
+			animate(slider,{left:-1200*index},function(){
+				if(index === 6){
+					slider.style.left="-1200px";
+					index=1;
+				}
+			});
+		}
+		function priv(){
+			index--;
+			navChange();
+			animate(slider,{left:-1200*index},function(){
+				if(index === 0){
+					slider.style.left="-6000px";
+					index=5;
+				}
+			});
+		}
+		//定时轮播
+		var timer=setInterval(next,2000);
+		//滑上去停下轮播
+		box.onmouseover=function(){
+			animate(left,{opacity:50});
+			animate(right,{opacity:50});
+			clearInterval(timer);
+		}
+		//滑开定时器启动
+		box.onmouseout=function(){
+			animate(left,{opacity:0});
+			animate(right,{opacity:0});
+			timer=setInterval(next,2000);
+		}
+		right.onclick = next;//点击右箭头换页
+		left.onclick=priv;//点击左箭头换页
+
+		for(var i=0;i<oNavlist.length;i++){
+			oNavlist[i].index1=i;
+			oNavlist[i].onclick=function(){
+				index=this.index1+1;
+				navChange();
+				animate(slider,{left:-1200*index});
+			}
+		}
+
+		function navChange(){//实现下方小圆圈变红
+			for(var i=0;i<oNavlist.length;i++){
+				oNavlist[i].className='';
+			}
+			if(index===6){
+				oNavlist[0].className='active';
+			}else if(index===0){
+				oNavlist[4].className='active';
+			}else{
+				oNavlist[index-1].className='active';
+			}
+		}
+	</script>
+</body>
